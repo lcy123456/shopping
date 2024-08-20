@@ -1,0 +1,5 @@
+.hbuilderx
+.husky
+
+node_modules
+static
