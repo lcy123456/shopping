@@ -1,4 +1,3 @@
-import { id } from 'element-plus/es/locale';
 <template>
     <div class="productionInfo-container">
         <van-nav-bar

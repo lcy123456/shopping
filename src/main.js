@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 import router from '@/router';
 import './styles/globa.css';
 import App from './App.vue';
-import 'element-plus/dist/index.css';
 import store from './stores';
 import { Lazyload } from 'vant';
 const app = createApp(App);
