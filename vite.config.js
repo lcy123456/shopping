@@ -64,16 +64,6 @@ export default defineConfig(commad => {
             alias: {
                 '@': fileURLToPath(new URL('./src/', import.meta.url))
             }
-        },
-        server: {
-            open: true,
-            port: 8080,
-            proxy: {
-                '/api': {
-                    target: `http://192.168.223.169:8000/`,
-                    changeOrigin: true
-                }
-            }
         }
     };
 });
