@@ -17,6 +17,7 @@ const routes = [
         path: '/',
         name: 'Layout',
         component: Layout,
+        redirect: '/home',
         meta: {
             keepAlive: true
         },
