@@ -32,7 +32,7 @@ npm run build
 # 项目基本介绍
 
 ```
-1.项目整体用到框架组件 vue3 + vue-router + vuex + vant + vite
+1.项目整体用到框架组件 vue3 + vue-router + vuex + vant + vite + node版本v20+
 
 2.风格使用 eslint + prettier 做格式检测和代码风格处理。
 
