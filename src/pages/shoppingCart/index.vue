@@ -81,7 +81,6 @@ const totalPrice = ref(0);
 
 const checked = ref(false);
 const changeCheck = event => {
-    console.log(event);
     dataList.value.forEach(v => {
         v.checked = event;
     });

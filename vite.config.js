@@ -30,8 +30,6 @@ export default defineConfig(commad => {
                         libraryName: 'vant',
                         esModule: true,
                         resolveStyle: name => {
-                            //v3 return `../es/${name}/style`;
-                            //v4
                             if (
                                 name == 'show-toast' ||
                                 name == 'show-loading-toast'

@@ -35,11 +35,9 @@ const onLoad = () => {
     loading.value = true;
     searchValue.value = '';
     toGetOrderList();
-    console.log(33, loading.value);
 };
 const orderList = computed(() => store.getters.storeOrderList);
 const toGetOrderList = async type => {
-    console.log('type---type', type);
     if (type === 'reset') {
         finished.value = false;
     }
@@ -52,12 +50,6 @@ const toGetOrderList = async type => {
         if (!data.length || data.length < offset) {
             finished.value = true;
         }
-        console.log(
-            'data.length---data.length',
-            data.length,
-            finished.value,
-            loading.value
-        );
     } catch (err) {
         console.error(err);
     }

@@ -33,7 +33,6 @@ const baseGetList = async ({ store, params, dataList, api, mutations }) => {
         });
         const l = type === 'reset' ? [...data] : [...dataList, ...data];
         commit(mutations, l);
-        console.log('data----data', data);
         return data;
     } catch (err) {
         console.error(err);
