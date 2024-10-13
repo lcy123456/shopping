@@ -30,7 +30,7 @@ const getShoppingCartList = {
     response: ({ body }) => {
         const { id, offset = 10 } = body;
         const i = !id ? 0 : shoppingCartList.findIndex(v => v.id === id);
-        const index = i ? i + 1 : i;
+        const index = i || id ? i + 1 : i;
         const l = i !== -1 ? shoppingCartList.slice(index, index + offset) : [];
         return { code: 200, data: l };
     }
@@ -45,6 +45,8 @@ const addOrder = {
         if (!authorization) {
             return { code: 503, data: { message: '请登录' } };
         }
+        const idList = list.map(v => v.id);
+        shoppingCartList = shoppingCartList.filter(v => !idList.includes(v.id));
         orderList = [...orderList, ...list];
         historyOrderList = orderList;
         return { code: 200, data: { message: '购买成功' } };
@@ -52,25 +54,33 @@ const addOrder = {
 };
 const getOrderList = {
     url: '/api/order/list',
-    method: 'get',
-    response: ({ headers }) => {
+    method: 'post',
+    response: ({ headers, body }) => {
+        const { id, offset = 10 } = body;
         const { authorization } = headers;
         if (!authorization) {
             return { code: 503, data: { message: '请登录' } };
         }
-        return { code: 200, data: orderList };
+        const i = !id ? 0 : orderList.findIndex(v => v.id === id);
+        const index = i || id ? i + 1 : i;
+        const l = i !== -1 ? orderList.slice(index, index + offset) : [];
+        return { code: 200, data: l };
     }
 };
 
 const getHistoryOrderList = {
     url: '/api/order/history/list',
-    method: 'get',
-    response: ({ headers }) => {
+    method: 'post',
+    response: ({ headers, body }) => {
+        const { id, offset = 10 } = body;
         const { authorization } = headers;
         if (!authorization) {
             return { code: 503, data: { message: '请登录' } };
         }
-        return { code: 200, data: historyOrderList };
+        const i = !id ? 0 : historyOrderList.findIndex(v => v.id === id);
+        const index = i || id ? i + 1 : i;
+        const l = i !== -1 ? historyOrderList.slice(index, index + offset) : [];
+        return { code: 200, data: l };
     }
 };
 

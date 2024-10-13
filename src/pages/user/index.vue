@@ -13,8 +13,8 @@
                 <span v-else class="login" @click="goLogin">登录</span>
             </div>
             <div class="cells">
-                <van-cell title="我的订单" is-link to="index" />
-                <van-cell title="历史订单" is-link to="index" />
+                <van-cell title="我的订单" is-link to="orderList" />
+                <van-cell title="历史订单" is-link to="historyOrder" />
                 <van-cell title="收货地址" is-link to="contact" />
             </div>
             <van-button class="logout-btn" type="primary" @click="goLogout">
@@ -27,9 +27,9 @@
 <script setup>
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router';
 const store = useStore();
 const userInfo = computed(() => store.getters.storeUserInfo);
-import { useRouter } from 'vue-router';
 const router = useRouter();
 const goLogout = async () => {
     try {

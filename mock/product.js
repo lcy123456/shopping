@@ -25,7 +25,7 @@ const getProductList = {
         const { id, offset = 10, keyword } = body;
         const productList = createProductList(keyword);
         const i = !id ? 0 : productList.findIndex(v => v.id === id);
-        const index = i ? i + 1 : i;
+        const index = i || id ? i + 1 : i;
         const l = i !== -1 ? productList.slice(index, index + offset) : [];
         return { code: 200, data: l };
     }

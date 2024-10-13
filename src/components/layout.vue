@@ -11,17 +11,27 @@
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import Tabbar from '@/components/tabbar.vue';
 import emitter from '@/utils/events';
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const routerName = computed(() => router.currentRoute.value.name);
+const isCurrentRouteUser = () => {
+    return routerName.value === 'user';
+};
 const loading = ref(false);
+const onRefresh = () => {
+    if (isCurrentRouteUser()) {
+        loading.value = false;
+        return;
+    }
+    emitter.emit('onRefresh');
+};
 emitter.off('onRefreshFinish');
 emitter.on('onRefreshFinish', () => {
     loading.value = false;
 });
-const onRefresh = () => {
-    emitter.emit('onRefresh');
-};
 </script>
 <style scoped lang="scss">
 .layout-container {

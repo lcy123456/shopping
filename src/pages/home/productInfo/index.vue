@@ -53,14 +53,13 @@ import { useStore } from 'vuex';
 const store = useStore();
 const router = useRouter();
 const onClickLeft = () => history.back();
-const id = ref(0);
+const id = router.currentRoute._value.query.id;
 const info = ref({
     imgList: []
 });
-id.value = router.currentRoute._value.query.id;
 const toGetProductInfo = async () => {
     try {
-        const { data } = await getProductInfo(id.value);
+        const { data } = await getProductInfo(id);
         info.value = data;
     } catch (err) {
         console.error(err);

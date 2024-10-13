@@ -27,7 +27,7 @@ export const addOrder = data => {
 export const getOrderList = data => {
     return service({
         url: '/api/order/list',
-        method: 'get',
+        method: 'post',
         data
     });
 };
@@ -35,7 +35,7 @@ export const getOrderList = data => {
 export const getHistoryOrderList = data => {
     return service({
         url: '/api/order/history/list',
-        method: 'get',
+        method: 'post',
         data
     });
 };

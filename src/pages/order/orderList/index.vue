@@ -1,65 +1,69 @@
 <template>
     <div class="order-list-container">
+        <van-nav-bar
+            title="订单数据"
+            left-text="返回"
+            left-arrow
+            @click-left="onClickLeft"
+        />
         <div class="card-box">
             <van-list
+                v-if="orderList.length"
                 :loading="loading"
                 :finished="finished"
                 finished-text="没有更多了"
                 error-text="请求失败，点击重新加载"
                 @load="onLoad"
             >
-                <Card v-for="item of dataList" :key="item.num" :data="item" />
+                <Card v-for="item of orderList" :key="item.id" :data="item" />
             </van-list>
+            <van-empty v-else description="暂无数据" />
         </div>
     </div>
 </template>
 <script setup>
-import { getProductList } from '@/api/product';
 import { ref, computed } from 'vue';
 import Card from '@/components/card.vue';
-import emitter from '@/utils/events';
-import { useRouter } from 'vue-router';
-const router = useRouter();
+import { useStore } from 'vuex';
+const store = useStore();
 const searchValue = ref('');
 const loading = ref(false);
 const finished = ref(false);
-const dataList = ref([]);
 const offset = 10;
-const routerName = computed(() => router.currentRoute.value.name);
 const onLoad = () => {
-    if (!isCurrentRoute()) return;
+    if (loading.value) return;
     loading.value = true;
     searchValue.value = '';
-    toGetProductList();
+    toGetOrderList();
+    console.log(33, loading.value);
 };
-const isCurrentRoute = () => {
-    return routerName.value === 'order-list';
-};
-const toGetProductList = async (type, keyword) => {
-    if (!isCurrentRoute()) return;
+const orderList = computed(() => store.getters.storeOrderList);
+const toGetOrderList = async type => {
+    console.log('type---type', type);
     if (type === 'reset') {
         finished.value = false;
     }
     try {
-        const { data } = await getProductList({
-            id:
-                type === 'reset'
-                    ? ''
-                    : dataList.value[dataList.value.length - 1]?.id,
+        const data = await store.dispatch('order/toGetOrderList', {
             offset,
-            keyword
+            type
         });
-        dataList.value =
-            type === 'reset' ? [...data] : [...dataList.value, ...data];
         loading.value = false;
         if (!data.length || data.length < offset) {
             finished.value = true;
         }
+        console.log(
+            'data.length---data.length',
+            data.length,
+            finished.value,
+            loading.value
+        );
     } catch (err) {
         console.error(err);
     }
-    type && isCurrentRoute() && emitter.emit('onRefreshFinish');
 };
+toGetOrderList('reset');
+const onClickLeft = () => history.back();
 </script>
 <style lang="scss" scoped>
 .swipe-img {

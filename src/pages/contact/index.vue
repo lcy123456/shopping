@@ -23,17 +23,16 @@ import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useStore } from 'vuex';
 import { showToast } from 'vant';
-const type = ref('');
 const router = useRouter();
+const type = router.currentRoute._value.query.type;
 const store = useStore();
 const addressList = computed(() => store.getters.storeAddressList);
 const chosenAddressId = ref(0);
 const onClickLeft = () => history.back();
-type.value = router.currentRoute._value.query.type;
 
 store.dispatch('address/toGetAddressList');
 chosenAddressId.value = addressList.value.find(v => v.isDefault)?.id;
-const isOrder = computed(() => type.value === 'order');
+const isOrder = computed(() => type === 'order');
 
 const onAdd = () => router.push({ name: 'contactAdd' });
 const onEdit = contact =>

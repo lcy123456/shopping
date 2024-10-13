@@ -52,7 +52,11 @@
                 :price="totalPrice"
                 :disabled="!submitDisabled"
                 @submit="goSubmitOrder"
-            />
+            >
+                <van-checkbox v-model="checked" @change="changeCheck">
+                    全选
+                </van-checkbox>
+            </van-submit-bar>
         </div>
     </div>
 </template>
@@ -74,6 +78,14 @@ const submitDisabled = computed(() =>
     dataList.value.some(obj => obj.checked === true)
 );
 const totalPrice = ref(0);
+
+const checked = ref(false);
+const changeCheck = event => {
+    console.log(event);
+    dataList.value.forEach(v => {
+        v.checked = event;
+    });
+};
 const onLoad = () => {
     if (!isCurrentRoute() || loading.value) return;
     loading.value = true;
@@ -89,8 +101,9 @@ const setPrice = () => {
     });
     totalPrice.value = num * 100;
 };
-const togetShoppingList = async type => {
-    if (!isCurrentRoute()) return;
+const togetShoppingList = async parmas => {
+    const { type, isGet } = parmas;
+    if (!isCurrentRoute() && !isGet) return;
     if (type === 'reset') {
         finished.value = false;
     }
@@ -109,19 +122,21 @@ const togetShoppingList = async type => {
     }
     type && isCurrentRoute() && emitter.emit('onRefreshFinish');
 };
-togetShoppingList('reset');
-emitter.on('onRefresh', togetShoppingList.bind(null, 'reset'));
 const goSubmitOrder = () => {
     const list = [];
     dataList.value.forEach(v => {
-        list.push({
-            ...v,
-            num: v.stepper || 1
-        });
+        v.checked &&
+            list.push({
+                ...v,
+                num: v.stepper || 1
+            });
     });
     store.commit('order/SET_PRE_ORDER_LIST', list);
     router.push({ name: 'contact', query: { type: 'order' } });
 };
+togetShoppingList({ type: 'reset' });
+emitter.on('onRefresh', togetShoppingList.bind(null, { type: 'reset' }));
+emitter.on('togetShoppingList', togetShoppingList);
 </script>
 <style lang="scss" scoped>
 .card-box {

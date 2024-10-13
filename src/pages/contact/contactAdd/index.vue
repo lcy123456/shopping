@@ -29,11 +29,10 @@ import { showToast } from 'vant';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 const router = useRouter();
-const id = ref(0);
-id.value = router.currentRoute._value.query.id;
+const id = router.currentRoute._value.query.id;
 const store = useStore();
 const addressEditInfo = computed(() =>
-    store.getters.storeAddressList.find(v => Number(v.id) === Number(id.value))
+    store.getters.storeAddressList.find(v => Number(v.id) === Number(id))
 );
 const onClickLeft = () => history.back();
 const searchResult = ref([]);
@@ -42,7 +41,7 @@ const onSave = async content => {
     try {
         const { data } = await addAddress({
             ...content,
-            id: id.value
+            id: id
         });
         showToast(data.message);
     } catch (err) {

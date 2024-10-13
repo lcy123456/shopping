@@ -39,9 +39,10 @@ import ToLogin from '@/components/toLogin.vue';
 import { useStore } from 'vuex';
 import { showToast } from 'vant';
 import { useRouter } from 'vue-router';
+import emitter from '@/utils/events';
 const router = useRouter();
 const store = useStore();
-const dataList = computed(() => store.getters.storePreOrderList);
+const dataList = computed(() => [...store.getters.storePreOrderList]);
 const storeToken = computed(() => store.getters.storeToken);
 const totalPrice = computed(() => {
     let num = 0;
@@ -58,6 +59,7 @@ const goSubmitOrder = async () => {
         });
         showToast(data.message);
         router.push({ name: 'home' });
+        emitter.emit('togetShoppingList', { type: 'reset', isGet: 1 });
     } catch (err) {
         console.error(err);
     }

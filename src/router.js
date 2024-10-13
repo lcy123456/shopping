@@ -9,6 +9,8 @@ import ContactAdd from '@/pages/contact/contactAdd/index.vue';
 import User from '@/pages/user/index.vue';
 import Login from '@/pages/login/index.vue';
 import OrderDetails from '@/pages/order/orderDetails/index.vue';
+import OrderList from '@/pages/order/orderList/index.vue';
+import HistoryOrder from '@/pages/order/historyOrder/index.vue';
 
 const routes = [
     {
@@ -20,7 +22,7 @@ const routes = [
         },
         children: [
             {
-                path: '',
+                path: 'home',
                 name: 'home',
                 component: HomePage
             },
@@ -67,6 +69,16 @@ const routes = [
         path: '/orderDetails',
         name: 'orderDetails',
         component: OrderDetails
+    },
+    {
+        path: '/orderList',
+        name: 'orderList',
+        component: OrderList
+    },
+    {
+        path: '/historyOrder',
+        name: 'historyOrder',
+        component: HistoryOrder
     }
 ];
 
